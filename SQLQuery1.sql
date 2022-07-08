@@ -1,12 +1,27 @@
 ﻿-- 1- Selezionare tutte le software house americane (3)
+SELECT *
+FROM software_houses
+WHERE country = 'United States';
 
 -- 2- Selezionare tutti i giocatori della città di 'Rogahnland' (2)
+SELECT *
+FROM players
+WHERE city = 'Rogahnland';
 
 -- 3- Selezionare tutti i giocatori il cui nome finisce per "a" (220)
+SELECT *
+FROM players
+WHERE name like '%a';
 
 -- 4- Selezionare tutte le recensioni scritte dal giocatore con ID = 800 (11)
+SELECT *
+FROM reviews
+WHERE player_id = 800;
 
 -- 5- Contare quanti tornei ci sono stati nell'anno 2015 (9)
+SELECT count(*)
+FROM tournaments
+WHERE year = 2015;
 
 -- 6- Selezionare tutti i premi che contengono nella descrizione la parola 'facere' (2)
 
