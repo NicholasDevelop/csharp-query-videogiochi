@@ -102,15 +102,35 @@ ORDER BY avg_rating DESC;
 -- 
 -- ```
 -- 1- Selezionare i dati di tutti giocatori che hanno scritto almeno una recensione, mostrandoli una sola volta (996)
+SELECT DISTINCT p.id, p.name, p.lastname, p.nickname, p.city
+FROM reviews r
+INNER JOIN players p ON r.player_id = p.id;
 
 -- 2- Sezionare tutti i videogame dei tornei tenuti nel 2016, mostrandoli una sola volta (226)
+SELECT DISTINCT v.id, v.name, v.release_date
+FROM videogames v
+INNER JOIN tournament_videogame tv ON v.id = tv.videogame_id
+INNER JOIN tournaments t ON tv.tournament_id = t.id
+WHERE t.year = 2016;
 
 -- 3- Mostrare le categorie di ogni videogioco
 -- SELECT v.id AS videogame_id, v.name AS videogame_name, v.release_date, c.id AS category_id, c.name AS category_name (1718)
+SELECT v.id AS videogame_id, v.name AS videogame_name, v.release_date, c.id AS category_id, c.name AS category_name
+FROM videogames v
+INNER JOIN category_videogame cv ON v.id = cv.videogame_id
+INNER JOIN categories c ON cv.category_id = c.id
+ORDER BY videogame_id;
 
 -- 4- Selezionare i dati di tutte le software house che hanno rilasciato almeno un gioco dopo il 2020, mostrandoli una sola volta (6)
+SELECT DISTINCT sh.id, sh.name, sh.tax_id, sh.city, sh.country
+FROM software_houses sh
+INNER JOIN videogames v ON sh.id = v.software_house_id
+WHERE YEAR(v.release_date) > 2020;
 
 -- 5- Selezionare i premi ricevuti da ogni software house per i videogiochi che ha prodotto (55)
+SELECT a.id, a.name, a.description
+FROM awards a
+INNER JOIN award_videogame av ON a.id = av.award_id;
 
 -- 6- Selezionare categorie e classificazioni PEGI dei videogiochi che hanno ricevuto recensioni da 4 e 5 stelle, mostrandole una sola volta (3363)
 
