@@ -133,12 +133,43 @@ FROM awards a
 INNER JOIN award_videogame av ON a.id = av.award_id;
 
 -- 6- Selezionare categorie e classificazioni PEGI dei videogiochi che hanno ricevuto recensioni da 4 e 5 stelle, mostrandole una sola volta (3363)
+SELECT DISTINCT v.id as id_videogame, v.name as videogame_name, c.name as category_name, pl.name as pegi_label_name
+FROM videogames v
+INNER JOIN reviews r ON v.id = r.videogame_id
+INNER JOIN pegi_label_videogame plv ON v.id = plv.videogame_id
+INNER JOIN pegi_labels pl ON plv.pegi_label_id = pl.id
+INNER JOIN category_videogame cv ON v.id = cv.videogame_id
+INNER JOIN categories c ON cv.category_id = c.id
+WHERE r.rating >= 4;
 
 -- 7- Selezionare quali giochi erano presenti nei tornei nei quali hanno partecipato i giocatori il cui nome inizia per 'S' (474)
+SELECT DISTINCT v.name as videogames_name, v.id as videogame_id
+FROM videogames v
+INNER JOIN tournament_videogame tv ON v.id = tv.videogame_id
+INNER JOIN tournaments t ON tv.tournament_id = t.id
+INNER JOIN player_tournament pt ON t.id = pt.tournament_id
+INNER JOIN players p ON pt.player_id = p.id
+WHERE p.name like 'S%';
 
 -- 8- Selezionare le città in cui è stato giocato il gioco dell'anno del 2018 (36)
+SELECT t.city as city
+FROM videogames v
+INNER JOIN tournament_videogame tv ON v.id = tv.videogame_id
+INNER JOIN tournaments t ON tv.tournament_id = t.id
+INNER JOIN award_videogame av ON v.id = av.videogame_id
+INNER JOIN awards a ON av.award_id = a.id
+WHERE av.year = 2018 and a.name = 'Gioco dell''anno';
 
 -- 9- Selezionare i giocatori che hanno giocato al gioco più atteso del 2018 in un torneo del 2019 (3306)
+SELECT p.id as player_id, p.name as player_name
+FROM videogames v
+INNER JOIN tournament_videogame tv ON v.id = tv.videogame_id
+INNER JOIN tournaments t ON tv.tournament_id = t.id
+INNER JOIN award_videogame av ON v.id = av.videogame_id
+INNER JOIN awards a ON av.award_id = a.id
+INNER JOIN player_tournament pt ON t.id = pt.tournament_id
+INNER JOIN players p ON pt.player_id = p.id
+WHERE a.name = 'Gioco più atteso' and av.year = 2018 and t.year = 2019;
 
 -- *********** BONUS ***********
 -- 
